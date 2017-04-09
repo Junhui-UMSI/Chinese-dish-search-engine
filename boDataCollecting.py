@@ -30,6 +30,10 @@ def bigOvenData(startNumber, endNumber):
             print "the " + str(i) + "nd file does not exist"
     return
 
+bigOvenData(33500, 34000)
+
+
+
 def byteify(input):
     if isinstance(input, dict):
         return {byteify(key): byteify(value)
@@ -42,7 +46,6 @@ def byteify(input):
         return input
 
 #add the ID ranges to use the bigOvenData e.g. bigOvenData(100, 200) download recipe of which id is in 100 - 200
-bigOvenData(400, 600)
 def xmlToDict(filename):
     fullname = "boRecipe\\" + filename
     f = open(fullname)
