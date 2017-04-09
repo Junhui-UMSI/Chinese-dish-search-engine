@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 
-import json, ast
+import json, os
 
-def byteify(input):
-    if isinstance(input, dict):
-        return {byteify(key): byteify(value)
-                for key, value in input.iteritems()}
-    elif isinstance(input, list):
-        return [byteify(element) for element in input]
-    elif isinstance(input, unicode):
-        return input.encode('utf-8')
-    else:
-        return input
+# def byteify(input):
+#     if isinstance(input, dict):
+#         return {byteify(key): byteify(value)
+#                 for key, value in input.iteritems()}
+#     elif isinstance(input, list):
+#         return [byteify(element) for element in input]
+#     elif isinstance(input, unicode):
+#         return input.encode('utf-8')
+#     else:
+#         return input
 
 def xmlToDict(filename):
     fullname = "boRecipe\\" + filename
@@ -20,25 +20,47 @@ def xmlToDict(filename):
     f.close()
     allRecipeData = str()
     for line in lines:
-        #line.strip("\n")
+        line.replace("\n", " ")
         allRecipeData += line
     #allRecipeDataDict = ast.literal_eval(allRecipeData)
     allRecipeDataDict = json.loads(allRecipeData)
-    allRecipeDataDict = byteify(allRecipeDataDict)
-    f = open('boRecipePYDic\\' + filename[:-4] + 'dic.txt', 'w')
-    for k in allRecipeDataDict:
-        if allRecipeDataDict[k] == None:
-            value = 'NA'
-        else:
-            value = str(allRecipeDataDict[k])
-            value = value.replace('\n', '')
-        f.write(k + '\t' + value + '\n')
+    #allRecipeDataDict = byteify(allRecipeDataDict)
+    f = open('boRecipeTII\\' + filename[:-4] + 'dic.txt', 'w')
+    writein = allRecipeDataDict['Title']
+    f.write(writein)
+    f.write('\n')
+    print writein
+
+    ingre = allRecipeDataDict['Ingredients']
+    writein = ''
+    for i in ingre:
+        writein += i['Name']
+        writein += ','
+        writein += ' '
+    print writein
+    f.write(writein)
+    f.write('\n')
+
+    instr = allRecipeDataDict['Instructions']
+    instr = instr.replace('\r\n', ' ')
+    # instr.replace('\n', ' ')
+    print instr
+    f.write(instr)
+
+    # for k in allRecipeDataDict:
+        # if allRecipeDataDict[k] == None:
+        #     value = 'NA'
+        # else:
+        #     value = str(allRecipeDataDict[k])
+        #     value = value.replace('\n', '')
+        # f.write(k + '\t' + value + '\n')
     f.close()
-    f = open('boRecipePYDic\\' + filename[:-4] + 'dic.txt')
-    line = f.readline().rstrip()
-    ID = line.split("\t")[1]
-    f = open("boRecipePYDic\\validID.txt", "a")
-    f.write(str(ID) + '\n')
+    ID = fnames[2:-4]
+    #ID = line.split("\t")[1]
+    f = open("boRecipeTII\\validID.txt", "a")
+    f.write(ID)
+    f.write('\n')
+    f.close()
     return
 
 def getFileID():
@@ -54,7 +76,6 @@ def getFileID():
 transferID = getFileID()
 print len(transferID), type(transferID)
 
-for i in transferID[1:30]:
+for i in transferID[0:30]:
     fnames = 'Re' + str(i) + ".txt"
     xmlToDict(fnames)
-
