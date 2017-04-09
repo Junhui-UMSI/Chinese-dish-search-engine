@@ -3,7 +3,6 @@
 import math
 from nltk import word_tokenize
 from stop_words import get_stop_words
-from sklearn.feature_extraction.text import TfidfVectorizer
 
 def getFileID():
     totalID = []
