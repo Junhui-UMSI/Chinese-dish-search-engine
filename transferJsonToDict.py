@@ -29,7 +29,7 @@ def xmlToDict(filename):
     writein = allRecipeDataDict['Title']
     f.write(writein)
     f.write('\n')
-    print writein
+    # print writein
 
     ingre = allRecipeDataDict['Ingredients']
     writein = ''
@@ -37,15 +37,16 @@ def xmlToDict(filename):
         writein += i['Name']
         writein += ','
         writein += ' '
-    print writein
-    f.write(writein)
+
+    # print writein
+    f.write(writein.encode('utf-8', 'ignore'))
     f.write('\n')
 
     instr = allRecipeDataDict['Instructions']
     instr = instr.replace('\r\n', ' ')
     # instr.replace('\n', ' ')
-    print instr
-    f.write(instr)
+    # print instr
+    f.write(instr.encode('utf-8', 'ignore'))
 
     # for k in allRecipeDataDict:
         # if allRecipeDataDict[k] == None:
@@ -74,8 +75,9 @@ def getFileID():
     return totalID
 
 transferID = getFileID()
-print len(transferID), type(transferID)
 
-for i in transferID[0:30]:
+# print len(transferID), type(transferID)
+
+for i in transferID[30000:]:
     fnames = 'Re' + str(i) + ".txt"
     xmlToDict(fnames)
